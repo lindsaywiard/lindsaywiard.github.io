@@ -48,15 +48,15 @@ async function mtMap() {
         .style("stroke-width", "3px")
         .style("stroke-opacity", 0.7);
 
-    svg.append("text")
-        .attr("x", (width / 2))
-        .attr("y", margin.top)
-        .attr("text-anchor","middle")
-        .attr("font-family", "calibri")
-        .attr("font-weight", "bold")
-        .attr("font-size", "25px")
-        .attr("fill", "#757270")
-        .text("Montana Parks");
+    // svg.append("text")
+    //     .attr("x", (width / 2))
+    //     .attr("y", margin.top)
+    //     .attr("text-anchor","middle")
+    //     .attr("font-family", "calibri")
+    //     .attr("font-weight", "bold")
+    //     .attr("font-size", "25px")
+    //     .attr("fill", "#757270")
+    //     .text("Montana Parks");
     
     var legend = svg.append("g")
         .attr("font-family", "calibri");

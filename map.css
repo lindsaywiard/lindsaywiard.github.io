@@ -21,4 +21,6 @@ html {background-color: #f5f3f1}
 a:link {
     color: #757270;
 }
+
+print-color-adjust = exact;
   
