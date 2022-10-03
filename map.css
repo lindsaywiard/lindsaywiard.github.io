@@ -1,0 +1,24 @@
+path {
+    fill: none;
+    stroke-width: 0.75px;
+    stroke: #ebe6e3;
+}
+
+circle {
+    fill: #c1d6bc;
+    stroke: #c1d6bc;
+    /* opacity: .5; */
+}
+
+.park {
+fill: white;
+stroke: white;
+/* opacity: .5; */
+}
+
+html {background-color: #f5f3f1}
+
+a:link {
+    color: #757270;
+}
+  
