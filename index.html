@@ -1,45 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="map.css">
-    <!-- load the d3.js library -->  
-    <script src="https://d3js.org/d3.v7.js"></script>
+  <meta charset="utf-8">
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 </head>
 
-<body>
-
-<div style="background-color: #757270; color: #ebe6e3; padding: 5px; font-size: larger; font-family: calibri">
-    <p style="text-align:center;"><span style="font-size:125%;"><b>Hypothesis: </b> </span>
-    Montana counties with more parks tend to have a democratic association.</p>
-</div>
-<!-- <div style="text-align:center; padding: 5px">
-    <svg id="svg2" width="800" height="40">
-    </svg>
-    <script src="legend.js"></script>
-</div> -->
-<div style="text-align:center; padding: 25px 25px 0px 25px">
-    <svg id="svg" width="800" height="550">
-        <g id="countyLayer"></g>
-        <g id="parkLayer"></g>
-        <g id="legendLayer"></g>
-    </svg>
-    <script src="mtMap.js"></script>
-</div>
-<!-- <div style="padding: 50px">
-    <svg id="svg2" width="500" height="300">
-        <g id="nmCountyLayer"></g>
-        <g id="nmparkLayer"></g>
-    </svg>
-    <script src="nmMap.js"></script>
-</div> -->
-
-<div style="color: #757270; padding: 0px 25px 0px 5px; font-size: larger; font-family: calibri">
-    <span style="font-size:115%;"> <b>Sources:</b></span><br>
-    <span style="font-size:85%;"><b>Election Results:</b> <i>2020 Election Results for President by County for Montana.</i> NPR, 30 Nov. 2020. <a href="https://apps.npr.org/elections20-interactive/#/states/MT/P">https://apps.npr.org/elections20-interactive/#/states/MT/P</a></span> <br>
-    <span style="font-size:85%;"><b>Park Locations: </b> Map data &copy OpenStreetMap contributors. 28 Sep. 2022. Data available under the <a href="https://opendatacommons.org/licenses/odbl/"> Open Database License</a> from <a href="openstreetmap.org/copyright">openstreetmap.org/copyright</a>. Data mining by Overpass turbo. Available at <a href="https://overpass-turbo.eu/"> overpass-turbo.eu</a> with a search for “leisure=park in Montana”. </span>
-</div>
-
+<body>  
+  <div id="vis"></div>
+  
+  <script>
+    const spec = "precip.vg.json";
+  	vegaEmbed("#vis", spec)
+    	// result.view provides access to the Vega View API
+      .then(result => console.log(result))
+      .catch(console.warn);
+  </script>
 </body>
-</html>
