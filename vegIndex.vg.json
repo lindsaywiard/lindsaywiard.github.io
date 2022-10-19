@@ -1,0 +1,420 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "description": "A plot of Vegetation Index",
+    "width": 700,
+    "height": 300,
+    "autosize": "fit-x",
+  
+    "signals": [
+  
+      {
+        "name": "Scale", "value": 0,
+        "bind": {"input": "range", "min": 0, "max": 1, "step": 0.1}
+      },
+      {
+        "name": "Spin", "value": 0,
+        "bind": {"input": "range", "min": 0, "max": 360, "step": 5}
+      },
+      {
+        "name": "Rotate", "value": 0,
+        "bind": {"input": "range", "min": -90, "max": 90, "step": 5}
+      },
+      {
+        "name": "rotate2", "value": 0
+      },
+      {
+        "name": "levels", "value": 10
+      },
+      {
+        "name": "stop", "value": 0.9
+      },
+      {
+        "name": "start", "value": -0.1
+      },
+      {
+        "name": "step",
+        "update": "(stop-start)/ levels"
+      },
+      {
+        "name": "x_center1", "value": 15
+      },
+      {
+        "name": "x_center2", "value": 375
+      }
+
+    ],
+  
+    "data": [
+      {
+        "name": "sphere1",
+        "values": [
+          {"type": "Sphere"}
+        ]
+      },
+      {
+        "name": "AugVegIndex",
+        "url": "data/Jan2022data.json"
+      },
+      {
+        "name": "contours1",
+        "source": "AugVegIndex",
+        "transform": [
+          {
+            "type": "isocontour",
+            "thresholds": {"signal": "sequence(start, stop, step)"}
+          }
+        ]
+      },
+      {
+        "name": "world1",
+        "url": "data/world-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
+      }, 
+      {
+        "name": "graticule1",
+        "transform": [
+          {
+            "type": "graticule"
+          }
+        ]
+      },
+      {
+        "name": "graticule1b",
+        "transform": [
+          {
+            "type": "graticule",
+            "extentMajor": [[-180, -0.01],[180,0.01]],
+            "extentMinor": [[-180, 0],[180,0]]
+          }
+        ]
+      },
+      {
+        "name": "JanVegIndex",
+        "url": "data/July2022data.json"
+      },
+      {
+        "name": "sphere2",
+        "values": [
+          {"type": "Sphere"}
+        ]
+      },
+      {
+        "name": "contours2",
+        "source": "JanVegIndex",
+        "transform": [
+          {
+            "type": "isocontour",
+            "thresholds": {"signal": "sequence(start, stop, step)"}
+          }
+        ]
+      },
+      {
+        "name": "world2",
+        "url": "data/world-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
+      }, 
+      {
+        "name": "graticule2",
+        "transform": [
+          {
+            "type": "graticule"
+          }
+        ]
+      },
+      {
+        "name": "graticule2b",
+        "transform": [
+          {
+            "type": "graticule",
+            "extentMajor": [[-180, -0.01],[180,0.01]],
+            "extentMinor": [[-180, 0],[180,0]]
+          }
+        ]
+      }
+    ],
+  
+    "projections": [
+      {
+        "name": "projection",
+        "type": "orthographic",
+        "scale": {"signal": "Scale*300+125"},
+        "rotate": {"signal": "[Spin, -Rotate, rotate2]"},
+        "translate": {"signal": "[width/2-25, height/2]"}
+      }
+    ],
+  
+    "scales": [
+      {
+        "name": "color",
+        "type": "quantize",
+        "domain": {"signal": "[start, stop]"},
+        "range": {"scheme": "goldgreen", "count": {"signal": "levels"}}
+      }
+    ],
+  
+    "marks": [
+      {
+        "type": "shape",
+        "clip": {"path": "M 0 0 H 340 V 280 H 0"},
+        "from": {"data": "sphere1"},
+        "encode": {
+          "update": {
+            "xc": {"signal": "x_center1"},
+            "yc": {"signal": "-8"},
+            "width": {"signal": "width/2"},
+            "fill": {"value": "#266280"}
+          }
+        },
+        "transform": [
+          {
+            "type": "geoshape",
+            "projection": "projection"
+          }
+        ]
+      },      
+      {
+        "type": "shape",
+        "clip": {"path": "M 0 0 H 340 V 280 H 0"},
+        "from": {"data": "world1"},
+        "encode": {
+          "update": {
+            "xc": {"signal": "x_center1"},
+            "yc": {"signal": "-8"},
+            "width": {"signal": "width/2"},
+            "strokeWidth": {"value": 1},
+            "stroke": {"value": "#eee"},
+            "fill": {"value": "#ddd"}
+          }
+        },
+        "transform": [
+          {
+            "type": "geoshape",
+            "projection": "projection"
+          }
+        ]
+      },
+      {
+        "type": "shape",
+        "clip": {"path": "M 0 0 H 340 V 280 H 0"},
+        "from": { "data": "contours1"},
+        "encode": {
+          "update": {
+            "xc": {"signal": "x_center1"},
+            "yc": {"signal": "-8"},
+            "width": {"signal": "width/2"},
+            "fill": {"scale": "color", "field": "contour.value"},
+            "fillOpacity": {"value": 0.5}
+          }
+        },
+        "transform": [
+          {
+            "type": "geoshape",
+            "field": "datum.contour",
+            "projection": "projection"
+          }
+        ]
+      }, 
+      {
+        "type": "shape",
+        "clip": {"path": "M 0 0 H 340 V 280 H 0"},
+        "from": {"data": "graticule1"},
+        "encode": {
+          "update": {
+            "xc": {"signal": "x_center1"},
+            "yc": {"signal": "-8"},
+            "width": {"signal": "width/2"},
+            "strokeWidth": {"value": 0.5},
+            "opacity": {"value": 0.45},
+            "stroke": {"value": "#ddd"},
+            "fill": {"value": null}
+          }
+        },
+        "transform": [
+          { 
+            "type": "geoshape", 
+            "projection": "projection" 
+          }
+        ]
+      },
+      {
+        "type": "shape",
+        "clip": {"path": "M 0 0 H 340 V 280 H 0"},
+        "from": {"data": "graticule1b"},
+        "encode": {
+          "update": {
+            "xc": {"signal": "x_center1"},
+            "yc": {"signal": "-8"},
+            "width": {"signal": "width/2"},
+            "strokeWidth": {"value": 3},
+            "strokeDash": {"value": [12, 4]},
+            "opacity": {"value": 0.8},
+            "stroke": {"value": "#BA3E38"},
+            "fill": {"value": null}
+          }
+        },
+        "transform": [
+          { 
+            "type": "geoshape", 
+            "projection": "projection" 
+          }
+        ]
+      },
+      {
+        "type": "shape",
+        "clip": {"path": "M 350 0 H 700 V 280 H 350"},
+        "from": {"data": "sphere2"},
+        "encode": {
+          "update": {
+            "xc": {"signal": "x_center2"},
+            "yc": {"signal": "-8"},
+            "width": {"signal": "width/2"},
+            "fill": {"value": "#266280"}
+          }
+        },
+        "transform": [
+          {
+            "type": "geoshape",
+            "projection": "projection"
+          }
+        ]
+      },      
+      {
+        "type": "shape",
+        "clip": {"path": "M 350 0 H 700 V 280 H 350"},
+        "from": {"data": "world2"},
+        "encode": {
+          "update": {
+            "xc": {"signal": "x_center2"},
+            "yc": {"signal": "-8"},
+            "width": {"signal": "width/2"},
+            "strokeWidth": {"value": 1},
+            "stroke": {"value": "#eee"},
+            "fill": {"value": "#ddd"}
+          }
+        },
+        "transform": [
+          {
+            "type": "geoshape",
+            "projection": "projection"
+          }
+        ]
+      },
+      {
+        "type": "shape",
+        "clip": {"path": "M 350 0 H 700 V 280 H 350"},
+        "from": { "data": "contours2"},
+        "encode": {
+          "update": {
+            "xc": {"signal": "x_center2"},
+            "yc": {"signal": "-8"},
+            "width": {"signal": "width/2"},
+            "fill": {"scale": "color", "field": "contour.value"},
+            "fillOpacity": {"value": 0.5}
+          }
+        },
+        "transform": [
+          {
+            "type": "geoshape",
+            "field": "datum.contour",
+            "projection": "projection"
+          }
+        ]
+      }, 
+      {
+        "type": "shape",
+        "clip": {"path": "M 350 0 H 700 V 280 H 350"},
+        "from": {"data": "graticule2"},
+        "encode": {
+          "update": {
+            "xc": {"signal": "x_center2"},
+            "yc": {"signal": "-8"},
+            "width": {"signal": "width/2"},
+            "strokeWidth": {"value": 0.5},
+            "opacity": {"value": 0.45},
+            "stroke": {"value": "#ddd"},
+            "fill": {"value": null}
+          }
+        },
+        "transform": [
+          { 
+            "type": "geoshape", 
+            "projection": "projection" 
+          }
+        ]
+      },
+      {
+        "type": "shape",
+        "clip": {"path": "M 350 0 H 700 V 280 H 350"},
+        "from": {"data": "graticule2b"},
+        "encode": {
+          "update": {
+            "xc": {"signal": "x_center2"},
+            "yc": {"signal": "-8"},
+            "width": {"signal": "width/2"},
+            "strokeWidth": {"value": 3},
+            "strokeDash": {"value": [12, 4]},
+            "opacity": {"value": 0.8},
+            "stroke": {"value": "#BA3E38"}
+          }
+        },
+        "transform": [
+          { 
+            "type": "geoshape", 
+            "projection": "projection" 
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "encode": {
+          "enter": {
+            "x": {"signal": "width/4-x_center1/2"},
+            "y": {"value": 298},
+            "baseline": {"value": "bottom"},
+            "fill": {"value": "#3D3C3B"},
+            "fontSize": {"value": 14},
+            "fontWeight": {"value": "bold"},
+            "text": {"value": "January 2022"},
+            "align": {"value": "center"}
+          }
+        }
+      }, 
+      {
+        "type": "text",
+        "encode": {
+          "enter": {
+            "x": {"signal": "3*width/4+x_center1/2-3"},
+            "y": {"value": 298},
+            "baseline": {"value": "bottom"},
+            "fill": {"value": "#3D3C3B"},
+            "fontSize": {"value": 14},
+            "fontWeight": {"value": "bold"},
+            "text": {"value": "July 2022"},
+            "align": {"value": "center"}
+          }
+        }
+      }
+    ],
+  
+    "legends": [
+      {
+        "title": "Vegetaion Index (NDVI)",
+        "fill": "color",
+        "orient": "top",
+        "offset": 10,
+        "type": "gradient",
+        "gradientLength": 300,
+        "gradientThickness": 15,
+        "titlePadding": 10,
+        "titleOrient": "left",
+        "titleAnchor": "middle",
+        "titleColor": {"value": "#3D3C3B"},
+        "direction": "horizontal",
+        "titleFontSize": {"value": 15}
+      }
+    ],
+  
+    "config": {
+      "legend": {"layout": {"anchor": "middle"}}
+    }
+  }
