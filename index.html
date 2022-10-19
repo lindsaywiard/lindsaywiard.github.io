@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="raster.css">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <!-- <title>Raster Assignment</title> -->
+</head>
+
+<body>
+    <div style="background-color: #2D854C; color: #ebe6e3; padding-left: 10px; 
+                padding-top: 1px; padding-bottom: 1px; font-size: larger; 
+                font-family: calibri; text-align: left;">
+        <div style="display: inline-block; text-align: left;">
+            <p><span style="font-size:125%;"><b>Hypothesis: </b> </span>
+                <br>Vegetation in the Northern Hemisphere changes more drastically 
+                between winter and summer than vegetaion in the Southern Hemisphere.</p>
+        </div>
+    </div>
+    <div id="map22", style="padding-top: 15px; font-family: calibri;
+    text-align: center; color: #3D3C3B; ">
+    </div>
+    <div style="color: #757270; padding-top: 20px; padding-left: 10px;
+                font-family: calibri">
+        <p><span style="font-size:110%;"> <b>NOTE:</b></span> The Normalized Difference Vegetation 
+            Index (NDVI) is "a measure of the "greenness" of Earth's landscapes. The values on these 
+            maps—ranging from -0.1 to 0.9—have no unit. Rather, they are index values in which higher 
+            values (0.4 to 0.9) show lands covered by green, leafy vegetation and lower values (0 to 0.4) 
+            show lands where there is little or no vegetation."
+        </p>
+
+        <p><span style="font-size:110%;"> <b>SOURCE:</b></span>
+        NASA. <i>Vegetation Index [NDVI](1 Month-TERRA/MODIS)</i>. 
+        NASA Earth Observations. Retreived 18 Oct 2022.
+        <a href="https://neo.gsfc.nasa.gov/view.php?datasetId=MOD_NDVI_M&year=2022">
+            https://neo.gsfc.nasa.gov/view.php?datasetId=MOD_NDVI_M&year=2022</a></span></p>
+    </div>
+    <script>
+        const spec22 = "vegIndex.vg.json";
+        vegaEmbed("#map22", spec22)
+            .then(result => console.log(result))
+            .catch(console.warn);
+    </script>
+</body>
+</html>
